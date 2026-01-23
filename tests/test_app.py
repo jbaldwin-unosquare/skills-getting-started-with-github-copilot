@@ -15,7 +15,7 @@ def test_get_activities():
 def test_signup_for_activity_success():
     activity = "Soccer Team"
     email = "newstudent@mergington.edu"
-    # Ensure not already signed up (no-op, state is reset per test)
+    # Sign up a new student; subsequent cleanup keeps this test idempotent across runs
     response = client.post(f"/activities/{activity}/signup?email={email}")
     assert response.status_code == 200
     assert f"Signed up {email} for {activity}" in response.json()["message"]
