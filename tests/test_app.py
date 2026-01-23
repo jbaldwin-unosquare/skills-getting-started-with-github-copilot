@@ -20,7 +20,8 @@ def test_signup_for_activity_success():
     assert response.status_code == 200
     assert f"Signed up {email} for {activity}" in response.json()["message"]
     # Clean up for idempotency
-    client.post(f"/activities/{activity}/remove?email={email}")
+    cleanup_response = client.post(f"/activities/{activity}/remove?email={email}")
+    assert cleanup_response.status_code == 200
 
 def test_signup_for_activity_already_signed_up():
     activity = "Soccer Team"
