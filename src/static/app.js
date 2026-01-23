@@ -102,10 +102,11 @@ document.addEventListener("DOMContentLoaded", () => {
               if (response.ok) {
                 fetchActivities();
               } else {
-                alert('Failed to unregister participant.');
+                alert('Failed to unregister participant. Please try again later.');
               }
             } catch (err) {
-              alert('Error occurred while unregistering.');
+              console.error('Error occurred while unregistering participant:', err);
+              alert('Failed to unregister participant. Please try again later.');
             }
           }
         });
