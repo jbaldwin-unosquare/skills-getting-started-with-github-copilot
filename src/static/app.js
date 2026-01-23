@@ -23,19 +23,19 @@ document.addEventListener("DOMContentLoaded", () => {
         // Build participants list HTML with delete icon
         let participantsHTML = "";
         if (details.participants.length > 0) {
-          participantsHTML = `
+            participantsHTML = `
             <div class="participants-section">
               <strong>Participants:</strong>
-              <ul class="participants-list" style="list-style-type: none; padding-left: 0;">
-                ${details.participants.map(p => `
-                  <li style="display: flex; align-items: center; gap: 6px;">
-                    <span class="participant-name">${p}</span>
-                    <button class="delete-participant-btn" title="Unregister participant" aria-label="Delete participant" data-activity="${name}" data-participant="${p}">🗑️</button>
-                  </li>
-                `).join("")}
+              <ul class="participants-list">
+              ${details.participants.map(p => `
+                <li>
+                <span class="participant-name">${p}</span>
+                <button class="delete-participant-btn" title="Unregister participant" aria-label="Delete participant" data-activity="${name}" data-participant="${p}">🗑️</button>
+                </li>
+              `).join("")}
               </ul>
             </div>
-          `;
+            `;
         } else {
           participantsHTML = `
             <div class="participants-section">

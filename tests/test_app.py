@@ -15,15 +15,12 @@ def test_get_activities():
 def test_signup_for_activity_success():
     activity = "Soccer Team"
     email = "newstudent@mergington.edu"
-    # Ensure not already signed up
-    client.get("/activities")
+    # Ensure not already signed up (no-op, state is reset per test)
     response = client.post(f"/activities/{activity}/signup?email={email}")
     assert response.status_code == 200
     assert f"Signed up {email} for {activity}" in response.json()["message"]
     # Clean up for idempotency
-    data = client.get("/activities").json()
-    if email in data[activity]["participants"]:
-        data[activity]["participants"].remove(email)
+    client.post(f"/activities/{activity}/remove?email={email}")
 
 def test_signup_for_activity_already_signed_up():
     activity = "Soccer Team"
