@@ -25,10 +25,17 @@ def test_signup_for_activity_success():
 
 def test_signup_for_activity_already_signed_up():
     activity = "Soccer Team"
-    email = "alex@mergington.edu"
-    response = client.post(f"/activities/{activity}/signup?email={email}")
-    assert response.status_code == 400
-    assert "already signed up" in response.json()["detail"]
+    email = "duplicate_tester@mergington.edu"
+    # First signup should succeed and establish the precondition
+    initial_response = client.post(f"/activities/{activity}/signup?email={email}")
+    assert initial_response.status_code == 200
+    # Second signup with the same email should fail as a duplicate
+    duplicate_response = client.post(f"/activities/{activity}/signup?email={email}")
+    assert duplicate_response.status_code == 400
+    assert "already signed up" in duplicate_response.json()["detail"]
+    # Clean up to keep the test idempotent across runs
+    cleanup_response = client.post(f"/activities/{activity}/remove?email={email}")
+    assert cleanup_response.status_code == 200
 
 def test_signup_for_activity_not_found():
     activity = "Nonexistent Club"
