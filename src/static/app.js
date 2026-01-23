@@ -20,42 +20,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
-        // Build participants list HTML with delete icon
-        let participantsHTML = "";
+        // Build participants list safely using DOM methods
+        const participantsSection = document.createElement("div");
+        participantsSection.className = "participants-section";
+        const participantsTitle = document.createElement("strong");
+        participantsTitle.textContent = "Participants:";
+        participantsSection.appendChild(participantsTitle);
+
         if (details.participants.length > 0) {
-            participantsHTML = `
-            <div class="participants-section">
-              <strong>Participants:</strong>
-              <ul class="participants-list">
-              ${details.participants.map(p => `
-                <li>
-                <span class="participant-name">${p}</span>
-                <button class="delete-participant-btn" title="Unregister participant" aria-label="Delete participant ${p}" data-activity="${name}" data-participant="${p}">🗑️</button>
-                </li>
-              `).join("")}
-              </ul>
-            </div>
-            `;
+          const participantsList = document.createElement("ul");
+          participantsList.className = "participants-list";
+          details.participants.forEach(p => {
+            const li = document.createElement("li");
+            const nameSpan = document.createElement("span");
+            nameSpan.className = "participant-name";
+            nameSpan.textContent = p;
+            li.appendChild(nameSpan);
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "delete-participant-btn";
+            deleteBtn.title = "Unregister participant";
+            deleteBtn.setAttribute("aria-label", `Delete participant ${p}`);
+            deleteBtn.setAttribute("data-activity", name);
+            deleteBtn.setAttribute("data-participant", p);
+            deleteBtn.textContent = "🗑️";
+            li.appendChild(deleteBtn);
+
+            participantsList.appendChild(li);
+          });
+          participantsSection.appendChild(participantsList);
         } else {
-          participantsHTML = `
-            <div class="participants-section">
-              <strong>Participants:</strong>
-              <p class="no-participants">No participants yet.</p>
-            </div>
-          `;
+          const noParticipants = document.createElement("p");
+          noParticipants.className = "no-participants";
+          noParticipants.textContent = "No participants yet.";
+          participantsSection.appendChild(noParticipants);
         }
 
-        activityCard.innerHTML = `
-          <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
-          <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
-          ${participantsHTML}
-        `;
+        // Build activity card content safely
+        const h4 = document.createElement("h4");
+        h4.textContent = name;
+        const descP = document.createElement("p");
+        descP.textContent = details.description;
+        const scheduleP = document.createElement("p");
+        scheduleP.innerHTML = `<strong>Schedule:</strong> ${details.schedule}`;
+        const spotsP = document.createElement("p");
+        spotsP.innerHTML = `<strong>Availability:</strong> ${spotsLeft} spots left`;
+
+        activityCard.appendChild(h4);
+        activityCard.appendChild(descP);
+        activityCard.appendChild(scheduleP);
+        activityCard.appendChild(spotsP);
+        activityCard.appendChild(participantsSection);
 
         activitiesList.appendChild(activityCard);
 
-        // Add option to select dropdown
+        // Add option to select dropdown safely
         const option = document.createElement("option");
         option.value = name;
         option.textContent = name;
