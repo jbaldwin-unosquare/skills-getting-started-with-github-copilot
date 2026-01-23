@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const participant = btn.getAttribute('data-participant');
           if (confirm(`Unregister ${participant} from ${activity}?`)) {
             try {
-              const response = await fetch(`/activities/${encodeURIComponent(activity)}/unregister?email=${encodeURIComponent(participant)}`, {
+              const response = await fetch(`/activities/${encodeURIComponent(activity)}/remove?email=${encodeURIComponent(participant)}`, {
                 method: 'POST',
               });
               if (response.ok) {
