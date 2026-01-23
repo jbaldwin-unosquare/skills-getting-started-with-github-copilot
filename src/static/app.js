@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Add event listeners for delete buttons
       document.querySelectorAll('.delete-participant-btn').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
+        btn.addEventListener('click', async () => {
           const activity = btn.getAttribute('data-activity');
           const participant = btn.getAttribute('data-participant');
           if (confirm(`Unregister ${participant} from ${activity}?`)) {
