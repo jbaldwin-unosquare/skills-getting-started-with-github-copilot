@@ -62,9 +62,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const descP = document.createElement("p");
         descP.textContent = details.description;
         const scheduleP = document.createElement("p");
-        scheduleP.innerHTML = `<strong>Schedule:</strong> ${details.schedule}`;
+        const scheduleStrong = document.createElement("strong");
+        scheduleStrong.textContent = "Schedule:";
+        scheduleP.appendChild(scheduleStrong);
+        scheduleP.appendChild(document.createTextNode(" " + details.schedule));
         const spotsP = document.createElement("p");
-        spotsP.innerHTML = `<strong>Availability:</strong> ${spotsLeft} spots left`;
+        const spotsStrong = document.createElement("strong");
+        spotsStrong.textContent = "Availability:";
+        spotsP.appendChild(spotsStrong);
+        spotsP.appendChild(document.createTextNode(" " + spotsLeft + " spots left"));
 
         activityCard.appendChild(h4);
         activityCard.appendChild(descP);
